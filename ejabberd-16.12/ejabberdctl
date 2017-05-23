@@ -11,10 +11,14 @@ ERLANG_NODE=ejabberd@localhost
 
 # define default environment variables
 SCRIPT_DIR=`cd ${0%/*} && pwd`
-ERL={{erl}}
+#ERL={{erl}}
+ERL=/usr/local/erlang/bin/erl
 IEX={{bindir}}/iex
-EPMD={{epmd}}
-INSTALLUSER={{installuser}}
+#EPMD={{epmd}}
+EPMD=/usr/local/erlang/bin/epmd
+#INSTALLUSER={{installuser}}
+INSTALLUSER=maomao
+
 ERL_LIBS={{libdir}}
 
 # check the proper system user is used if defined
