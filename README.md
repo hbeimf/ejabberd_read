@@ -13,7 +13,7 @@ cp ejabberd.yml.example ejabberd.yml
 
 ./run.sh
 
-
+EJABBERD_CONFIG_PATH=ejabberd.yml erl -pa ebin -pa deps/*/ebin -pa test -pa deps/elixir/lib/*/ebin/ -s ejabberd
 
 
 
@@ -26,9 +26,6 @@ cp ejabberd.yml.example ejabberd.yml
     https://ftp.gnu.org/pub/gnu/libiconv/
 
     url: http://blog.csdn.net/skylinethj/article/details/39560577
-
-    wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.13.1.tar.gz
-
 
 
     tar zxvf libiconv-1.13.1.tar.gz
