@@ -1,10 +1,8 @@
 
-http://coderplay.iteye.com/blog/99893
-ejabberd管理页面和客户端
-
 
 
 ============================================
+
 ejabberd 安装下载
 
 https://www.process-one.net/en/ejabberd/archive/
@@ -12,20 +10,27 @@ https://www.process-one.net/en/ejabberd/archive/
 https://www.process-one.net/downloads/ejabberd/16.12/ejabberd-16.12.tgz
 
 
-./autogen.sh
-./configure
-make
+    ./autogen.sh
+    ./configure
+    make
 
-cp ejabberd.yml.example ejabberd.yml
+    cp ejabberd.yml.example ejabberd.yml
 
-./run.sh
+    ./run.sh
 
-EJABBERD_CONFIG_PATH=ejabberd.yml erl -pa ebin -pa deps/*/ebin -pa test -pa deps/elixir/lib/*/ebin/ -s ejabberd
-
-
+    EJABBERD_CONFIG_PATH=ejabberd.yml erl -pa ebin -pa deps/*/ebin -pa test -pa deps/elixir/lib/*/ebin/ -s ejabberd
 
 
-##./configure --enable-msdblib --with-libiconv-prefix=/usr/local/lib --with-unixodbc=/usr/local --with-tdsver=8.0
+
+
+    ##./configure --enable-msdblib --with-libiconv-prefix=/usr/local/lib --with-unixodbc=/usr/local --with-tdsver=8.0
+
+=============================================
+
+
+http://coderplay.iteye.com/blog/99893
+
+ejabberd管理页面和客户端
 
 
 
