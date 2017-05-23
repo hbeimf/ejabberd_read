@@ -7,7 +7,7 @@ ejabberd 安装下载
 
 https://www.process-one.net/en/ejabberd/archive/
 
-https://www.process-one.net/downloads/ejabberd/16.12/ejabberd-16.12.tgz
+wget https://www.process-one.net/downloads/ejabberd/16.12/ejabberd-16.12.tgz
 
 
     ./autogen.sh
@@ -18,12 +18,11 @@ https://www.process-one.net/downloads/ejabberd/16.12/ejabberd-16.12.tgz
 
     ./run.sh
 
-    EJABBERD_CONFIG_PATH=ejabberd.yml erl -pa ebin -pa deps/*/ebin -pa test -pa deps/elixir/lib/*/ebin/ -s ejabberd
 
 
 
 
-    ##./configure --enable-msdblib --with-libiconv-prefix=/usr/local/lib --with-unixodbc=/usr/local --with-tdsver=8.0
+
 
 =============================================
 http://www.jianshu.com/p/f801229de016
@@ -32,7 +31,10 @@ http://blog.csdn.net/zxjllz405/article/details/40185551
 
 创建管理员账号：
 
-./ejabberdctl ejabberd@127.0.0.1 register admin 127.0.0.1 password
+##./ejabberdctl ejabberd@127.0.0.1 register admin 127.0.0.1 password
+
+
+EJABBERD_CONFIG_PATH=ejabberd.yml ./ejabberdctl ejabberd@127.0.0.1 register admin 127.0.0.1 123456
 
 -----------------------------------------
 
