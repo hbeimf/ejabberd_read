@@ -4,6 +4,13 @@ ejabberd管理页面和客户端
 
 
 
+============================================
+ejabberd 安装下载
+
+https://www.process-one.net/en/ejabberd/archive/
+
+https://www.process-one.net/downloads/ejabberd/16.12/ejabberd-16.12.tgz
+
 
 ./autogen.sh
 ./configure
@@ -18,6 +25,9 @@ EJABBERD_CONFIG_PATH=ejabberd.yml erl -pa ebin -pa deps/*/ebin -pa test -pa deps
 
 
 
+##./configure --enable-msdblib --with-libiconv-prefix=/usr/local/lib --with-unixodbc=/usr/local --with-tdsver=8.0
+
+
 
 =============================================
 
@@ -30,6 +40,8 @@ EJABBERD_CONFIG_PATH=ejabberd.yml erl -pa ebin -pa deps/*/ebin -pa test -pa deps
 
     tar zxvf libiconv-1.13.1.tar.gz
     ./configure -prefix=/usr/local
+
+
     make
     make install
 
