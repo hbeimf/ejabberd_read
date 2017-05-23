@@ -26,6 +26,16 @@ https://www.process-one.net/downloads/ejabberd/16.12/ejabberd-16.12.tgz
     ##./configure --enable-msdblib --with-libiconv-prefix=/usr/local/lib --with-unixodbc=/usr/local --with-tdsver=8.0
 
 =============================================
+http://www.jianshu.com/p/f801229de016
+-----------------------------------------
+http://blog.csdn.net/zxjllz405/article/details/40185551
+
+创建管理员账号：
+
+./ejabberdctl ejabberd@127.0.0.1 register admin 127.0.0.1 password
+
+-----------------------------------------
+
 
 
 http://coderplay.iteye.com/blog/99893
@@ -33,6 +43,15 @@ http://coderplay.iteye.com/blog/99893
 ejabberd管理页面和客户端
 
 
+
+管理页面url:
+
+http://localhost:5280/admin
+
+账号密码:
+
+admin@localhost
+123456
 
 =============================================
 
