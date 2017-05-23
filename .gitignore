@@ -49,4 +49,4 @@ XmppAddr.hrl
 /.rebar
 *.log
 Mnesia*
-
+/tar
