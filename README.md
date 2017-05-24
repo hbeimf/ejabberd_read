@@ -1,4 +1,8 @@
+erlang version
 
+erlang -> ./erlang_1.8.3/
+
+ubuntu
 
 
 ============================================
