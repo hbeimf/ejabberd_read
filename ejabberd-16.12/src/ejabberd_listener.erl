@@ -408,6 +408,42 @@ start_listener_sup(Port, Module, Opts) ->
 		 brutal_kill,
 		 worker,
 		 [?MODULE]},
+
+    %% 查看监听子进程启动
+    % io:format("~n~nmod:~p, line:~p~n ChildSpec: ~n~p~n~n", [?MODULE, ?LINE, ChildSpec]),
+
+    %     mod:ejabberd_listener, line:413
+    %  ChildSpec:
+    % {{5222,{0,0,0,0},tcp},
+    %  {ejabberd_listener,start,
+    %                     [{5222,{0,0,0,0},tcp},
+    %                      ejabberd_c2s,
+    %                      [{access,c2s},
+    %                       {shaper,c2s_shaper},
+    %                       {max_stanza_size,65536}]]},
+    %  transient,brutal_kill,worker,
+    %  [ejabberd_listener]}
+
+    % mod:ejabberd_listener, line:413
+    %  ChildSpec:
+    % {{5269,{0,0,0,0},tcp},
+    %  {ejabberd_listener,start,[{5269,{0,0,0,0},tcp},ejabberd_s2s_in,[]]},
+    %  transient,brutal_kill,worker,
+    %  [ejabberd_listener]}
+
+    %  mod:ejabberd_listener, line:413
+    %  ChildSpec:
+    % {{5280,{0,0,0,0},tcp},
+    %  {ejabberd_listener,start,
+    %      [{5280,{0,0,0,0},tcp},
+    %       ejabberd_http,
+    %       [{captcha,true},
+    %        {http_bind,true},
+    %        {web_admin,true},
+    %        {request_handlers,[{<<"/websocket">>,ejabberd_http_ws}]}]]},
+    %  transient,brutal_kill,worker,
+    %  [ejabberd_listener]}
+
     supervisor:start_child(ejabberd_listeners, ChildSpec).
 
 stop_listeners() ->
