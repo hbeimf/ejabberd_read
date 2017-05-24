@@ -24,7 +24,8 @@ wget https://www.process-one.net/downloads/ejabberd/16.12/ejabberd-16.12.tgz
 sudo /sbin/ejabberdctl ejabberd@127.0.0.1 register admin 127.0.0.1 123456
 
 
-
+sudo /sbin/ejabberdctl register admin localhost 123456
+User admin@localhost successfully registered
 
 =============================================
 新建XMPP管理帐号
