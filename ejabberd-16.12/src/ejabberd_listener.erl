@@ -111,8 +111,33 @@ report_duplicated_portips(L) ->
   end.
 
 start(Port, Module, Opts) ->
+    % 启动监听子进程入口
     %% Check if the module is an ejabberd listener or an independent listener
     ModuleRaw = strip_frontend(Module),
+    % io:format("=============~n~p~n~p~n~n", [{?MODULE, ?LINE}, {Port, Module, Opts, ModuleRaw, ModuleRaw:socket_type()}]),
+    % =============
+    % {ejabberd_listener,117}
+    % {{5222,{0,0,0,0},tcp},
+    %  ejabberd_c2s,
+    %  [{access,c2s},{shaper,c2s_shaper},{max_stanza_size,65536}],
+    %  ejabberd_c2s,xml_stream}
+
+    % 15:58:08.739 [info] Reusing listening port for {5222,{0,0,0,0},tcp}
+    % =============
+    % {ejabberd_listener,117}
+    % {{5269,{0,0,0,0},tcp},ejabberd_s2s_in,[],ejabberd_s2s_in,xml_stream}
+
+    % 15:58:08.739 [info] Reusing listening port for {5269,{0,0,0,0},tcp}
+    % =============
+    % {ejabberd_listener,117}
+    % {{5280,{0,0,0,0},tcp},
+    %  ejabberd_http,
+    %  [{captcha,true},
+    %   {http_bind,true},
+    %   {web_admin,true},
+    %   {request_handlers,[{<<"/websocket">>,ejabberd_http_ws}]}],
+    %  ejabberd_http,raw}
+
     case ModuleRaw:socket_type() of
 	independent -> ModuleRaw:start_listener(Port, Opts);
 	_ -> start_dependent(Port, Module, Opts)
@@ -120,8 +145,10 @@ start(Port, Module, Opts) ->
 
 %% @spec(Port, Module, Opts) -> {ok, Pid} | {error, ErrorMessage}
 start_dependent(Port, Module, Opts) ->
+    %% 返回监听子进程 Pid
     try check_listener_options(Opts) of
 	ok ->
+        %% 监听进程　Pid　就是在这里返回的，　进入init，　好吧，就在下面
 	    proc_lib:start_link(?MODULE, init, [Port, Module, Opts])
     catch
 	throw:{error, Error} ->
@@ -130,8 +157,37 @@ start_dependent(Port, Module, Opts) ->
     end.
 
 init(PortIP, Module, RawOpts) ->
+    % 来到init
+
     {Port, IPT, IPS, IPV, Proto, OptsClean} = parse_listener_portip(PortIP, RawOpts),
     {Opts, SockOpts} = prepare_opts(IPT, IPV, OptsClean),
+
+    % io:format("=============~n~p~n~p~n~n", [{?MODULE, ?LINE}, {PortIP, Module, RawOpts, Proto}]),
+    % =============
+    % {ejabberd_listener,165}
+    % {{5222,{0,0,0,0},tcp},
+    %  ejabberd_c2s,
+    %  [{access,c2s},{shaper,c2s_shaper},{max_stanza_size,65536}],
+    %  tcp}
+
+    % 16:06:37.201 [info] Reusing listening port for {5222,{0,0,0,0},tcp}
+    % =============
+    % {ejabberd_listener,165}
+    % {{5269,{0,0,0,0},tcp},ejabberd_s2s_in,[],tcp}
+
+    % 16:06:37.201 [info] Reusing listening port for {5269,{0,0,0,0},tcp}
+    % =============
+    % {ejabberd_listener,165}
+    % {{5280,{0,0,0,0},tcp},
+    %  ejabberd_http,
+    %  [{captcha,true},
+    %   {http_bind,true},
+    %   {web_admin,true},
+    %   {request_handlers,[{<<"/websocket">>,ejabberd_http_ws}]}],
+    %  tcp}
+
+    % 很显然进入了　init_tcp
+
     if Proto == udp ->
 	    init_udp(PortIP, Module, Opts, SockOpts, Port, IPS);
        true ->
@@ -165,6 +221,44 @@ init_udp(PortIP, Module, Opts, SockOpts, Port, IPS) ->
     end.
 
 init_tcp(PortIP, Module, Opts, SockOpts, Port, IPS) ->
+    % 来到了这里
+    % io:format("=============~n~p~n~p~n~n", [{?MODULE, ?LINE}, {PortIP, Module, Opts, SockOpts, Port, IPS}]),
+    % =============
+    % {ejabberd_listener,225}
+    % {{5222,{0,0,0,0},tcp},
+    %  ejabberd_c2s,
+    %  [inet,
+    %   {access,c2s},
+    %   {shaper,c2s_shaper},
+    %   {max_stanza_size,65536},
+    %   {ip,{0,0,0,0}}],
+    %  [inet,{ip,{0,0,0,0}}],
+    %  5222,<<"0.0.0.0">>}
+
+    % 16:13:18.081 [info] Reusing listening port for {5222,{0,0,0,0},tcp}
+    % =============
+    % {ejabberd_listener,225}
+    % {{5269,{0,0,0,0},tcp},
+    %  ejabberd_s2s_in,
+    %  [inet,{ip,{0,0,0,0}}],
+    %  [inet,{ip,{0,0,0,0}}],
+    %  5269,<<"0.0.0.0">>}
+
+    % 16:13:18.081 [info] Reusing listening port for {5269,{0,0,0,0},tcp}
+    % =============
+    % {ejabberd_listener,225}
+    % {{5280,{0,0,0,0},tcp},
+    %  ejabberd_http,
+    %  [inet,
+    %   {captcha,true},
+    %   {http_bind,true},
+    %   {web_admin,true},
+    %   {request_handlers,[{<<"/websocket">>,ejabberd_http_ws}]},
+    %   {ip,{0,0,0,0}}],
+    %  [inet,{ip,{0,0,0,0}}],
+    %  5280,<<"0.0.0.0">>}
+
+
     ListenSocket = listen_tcp(PortIP, Module, SockOpts, Port, IPS),
     %% Inform my parent that this port was opened succesfully
     proc_lib:init_ack({ok, self()}),
@@ -340,6 +434,14 @@ accept(ListenSocket, Module, Opts, Interval) ->
 			  true -> ejabberd_frontend_socket;
 			  false -> ejabberd_socket
 		      end,
+
+        % io:format("=============~n~p~n~p~n~n", [{?MODULE, ?LINE}, {CallMod, strip_frontend(Module)}]),
+        %         =============
+        % {ejabberd_listener,438}
+        % {ejabberd_socket,ejabberd_c2s}
+
+        % 进入ejabberd_socket:start/4
+
 	    CallMod:start(strip_frontend(Module), gen_tcp, Socket, Opts),
 	    accept(ListenSocket, Module, Opts, NewInterval);
 	{error, Reason} ->
