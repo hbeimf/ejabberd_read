@@ -11,15 +11,11 @@ ERLANG_NODE=ejabberd@localhost
 
 # define default environment variables
 SCRIPT_DIR=`cd ${0%/*} && pwd`
-#ERL={{erl}}
 ERL=/usr/local/erlang/bin/erl
-IEX={{bindir}}/iex
-#EPMD={{epmd}}
+IEX=//bin/iex
 EPMD=/usr/local/erlang/bin/epmd
-#INSTALLUSER={{installuser}}
-INSTALLUSER=maomao
-
-ERL_LIBS={{libdir}}
+INSTALLUSER=
+ERL_LIBS=//lib
 
 # check the proper system user is used if defined
 if [ "$INSTALLUSER" != "" ] ; then
@@ -65,7 +61,7 @@ done
 
 # Define ejabberd variable if they have not been defined from the command line
 if [ "$ETC_DIR" = "" ] ; then
-    ETC_DIR={{sysconfdir}}/ejabberd
+    ETC_DIR=//etc/ejabberd
 fi
 if [ "$EJABBERDCTL_CONFIG_PATH" = "" ] ; then
     EJABBERDCTL_CONFIG_PATH=$ETC_DIR/ejabberdctl.cfg
@@ -77,19 +73,19 @@ if [ "$EJABBERD_CONFIG_PATH" = "" ] ; then
     EJABBERD_CONFIG_PATH=$ETC_DIR/ejabberd.yml
 fi
 if [ "$LOGS_DIR" = "" ] ; then
-    LOGS_DIR={{localstatedir}}/log/ejabberd
+    LOGS_DIR=//var/log/ejabberd
 fi
 if [ "$SPOOL_DIR" = "" ] ; then
-    SPOOL_DIR={{localstatedir}}/lib/ejabberd
+    SPOOL_DIR=//var/lib/ejabberd
 fi
 if [ "$EJABBERD_DOC_PATH" = "" ] ; then
-    EJABBERD_DOC_PATH={{docdir}}
+    EJABBERD_DOC_PATH=//share/doc/ejabberd
 fi
 if [ "$ERLANG_NODE_ARG" != "" ] ; then
     ERLANG_NODE=$ERLANG_NODE_ARG
 fi
 if [ "{{release}}" != "true" -a "$EJABBERD_BIN_PATH" = "" ] ; then
-    EJABBERD_BIN_PATH={{libdir}}/ejabberd/priv/bin
+    EJABBERD_BIN_PATH=//lib/ejabberd/priv/bin
 fi
 EJABBERD_LOG_PATH=$LOGS_DIR/ejabberd.log
 DATETIME=`date "+%Y%m%d-%H%M%S"`
