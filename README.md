@@ -27,6 +27,13 @@ sudo /sbin/ejabberdctl ejabberd@127.0.0.1 register admin 127.0.0.1 123456
 =============================================
 在ubuntu 软件中心搜索 psi
 
+psi聊天客户端
+开源即时通讯客户端Psi
+
+pidgin
+
+
+
 
 http://coderplay.iteye.com/blog/99893
 ejabberd管理页面和客户端
