@@ -43,20 +43,74 @@
 start(normal, _Args) ->
     %% 启动lager
     ejabberd_logger:start(),
+
     % 将进程号写入文件中，由于我用的./run.sh 启动的系统，没有配置，这里也就是返回个ok, 啥也没做
     write_pid_file(),
+
     % 启动依赖app, 具体看　start_apps函数内的调用
     start_apps(),
+
+    % 检查一个宏是否定义，如果定义了，启动elixir　app,　
+    %% elixir我个人不是太喜欢^_^, 觉得不纯，花骚[个人观点]
     start_elixir_application(),
+
+    %% 这里主要是检查ejabberd的模块是否都加载了，逻辑简单，　./ebin/ejabberd.app 里的模块　，
     ejabberd:check_app(ejabberd),
+
+    %%
+    % (ejabberd@localhost)8> code:which(randoms).
+    % "/web/ejabberd_read/ejabberd-16.12/ebin/randoms.beam"
+    % 找到了，还以为是一个外部文件，　结果还是在src下，进去瞄下
+    % 进去看了下，就返回个ok ,好吧，你们城里人真会玩，我被打败了
     randoms:start(),
+
+    %启动mnesia app
     db_init(),
+
+    %注册ejabberd　进程，好像这个进程啥也不做，即然不是关心的代码段，就先丢一边，
     start(),
+
+    % 建了张ets表，加载了一些数据，冒似是搞翻译之类的，
     translate:start(),
+
+    %启动一个gen_server, 注册名称为　ejabberd_access_permissions，
+    % ejabberd_access_permissions:show_current_definitions().
+    % 看下面的返回结果，acl啥的，应该是跟权限控制相关的细节，后面具体用到的时候再探究细节，
+    %     (ejabberd@localhost)11> ejabberd_access_permissions:show_current_definitions().
+    % [{<<"console commands">>,
+    %   {[ejabberd_ctl],
+    %    [{acl,all}],
+    %    [user_resources,update_list,update,unregister,stop_kindly,
+    %     stop_all_connections,stop,status,set_master,set_loglevel,
+    %     rotate_log,restore,restart,reopen_log,reload_config,
+    %     registered_vhosts,registered_users,register,
+    %     outgoing_s2s_number,oauth_revoke_token,oauth_list_tokens,
+    %     oauth_list_scopes,oauth_issue_token|...]}},
+    %  {<<"admin access">>,
+    %   {[],
+    %    [{acl,admin}],
+    %    [user_resources,update_list,update,unregister,stop_kindly,
+    %     stop_all_connections,status,set_master,set_loglevel,
+    %     rotate_log,restore,restart,reopen_log,reload_config,
+    %     registered_vhosts,registered_users,register,
+    %     outgoing_s2s_number,oauth_revoke_token,oauth_list_tokens,
+    %     oauth_list_scopes,oauth_issue_token|...]}},
+    %  {<<"'commands' option compatibility shim">>,
+    %   {[],[{access,none}],[]}}]
     ejabberd_access_permissions:start_link(),
+
+    % 建了两个 ets 表
+    % ejabberd_ctl_cmds, ejabberd_ctl_host_cmds
     ejabberd_ctl:init(),
+
+    % mnesia表相关的，还有一点权限相关的，细节后面再看，
     ejabberd_commands:init(),
+
+    % 将命令写入mnesia表，　
+    % ejabberd commands
+    % 好多命令　具体看 ejabberd_admin:get_commands_spec()
     ejabberd_admin:start(),
+
     gen_mod:start(),
     ext_mod:start(),
     setup_if_elixir_conf_used(),
