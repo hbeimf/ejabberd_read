@@ -41,8 +41,11 @@
 %%%
 
 start(normal, _Args) ->
+    %% 启动lager
     ejabberd_logger:start(),
+    % 将进程号写入文件中，由于我用的./run.sh 启动的系统，没有配置，这里也就是返回个ok, 啥也没做
     write_pid_file(),
+    % 启动依赖app, 具体看　start_apps函数内的调用
     start_apps(),
     start_elixir_application(),
     ejabberd:check_app(ejabberd),
