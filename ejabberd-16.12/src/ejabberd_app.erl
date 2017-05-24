@@ -111,8 +111,16 @@ start(normal, _Args) ->
     % 好多命令　具体看 ejabberd_admin:get_commands_spec()
     ejabberd_admin:start(),
 
+    % ejabberd_modules , 建　etf 表
     gen_mod:start(),
+
+    %% 加入一些路径　
+    %% "/web/ejabberd_read/ejabberd-16.12/deps/p1_utils/ebin/p1_http.beam"
+    %% p1_http:start(),  　　估计是启动了一个http监听之类的 ,  这个后面再看细节，
+    %% ejabberd_commands:register_commands(get_commands_spec()). 注册了一些命令，
+    %% 本质就是往mnesia表里写数据，也只能　等　到用到的时候再排查细节
     ext_mod:start(),
+
     setup_if_elixir_conf_used(),
     ejabberd_config:start(),
     set_settings_from_config(),
@@ -132,6 +140,8 @@ start(normal, _Args) ->
     ejabberd_auth:start(),
     ejabberd_oauth:start(),
     gen_mod:start_modules(),
+
+    % 先跳　到这里查看下
     ejabberd_listener:start_listeners(),
     register_elixir_config_hooks(),
     ?INFO_MSG("ejabberd ~s is started in the node ~p", [?VERSION, node()]),
