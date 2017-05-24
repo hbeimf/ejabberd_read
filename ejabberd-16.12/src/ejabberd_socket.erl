@@ -77,6 +77,19 @@
 -spec start(atom(), sockmod(), socket(), [{atom(), any()}]) -> any().
 
 start(Module, SockMod, Socket, Opts) ->
+    % 连接建立后来到了这里
+
+    % io:format("=============~n~p~n~p~n~n", [{?MODULE, ?LINE}, {Module, SockMod, Opts}]),
+    %     =============
+    % {ejabberd_socket,83}
+    % {ejabberd_c2s,gen_tcp,
+    %               [inet,
+    %                {access,c2s},
+    %                {shaper,c2s_shaper},
+    %                {max_stanza_size,65536},
+    %                {ip,{0,0,0,0}}]}
+
+
     case Module:socket_type() of
       xml_stream ->
 	  MaxStanzaSize = case lists:keysearch(max_stanza_size, 1,
