@@ -25,9 +25,19 @@ sudo /sbin/ejabberdctl ejabberd@127.0.0.1 register admin 127.0.0.1 123456
 
 
 =============================================
+在ubuntu 软件中心搜索 psi
+
 
 http://coderplay.iteye.com/blog/99893
 ejabberd管理页面和客户端
+
+
+
+客户端下载
+
+http://psi-im.org/download/
+
+https://apps.ubuntu.com/cat/applications/precise/psi/
 
 
 新建XMPP管理帐号
