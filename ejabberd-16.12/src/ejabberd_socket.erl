@@ -106,6 +106,8 @@ start(Module, SockMod, Socket, Opts) ->
 					      {receiver, RecMod, RecPid} ->
 						  {RecMod, RecPid, RecMod};
 					      _ ->
+
+                          %% 启动了接收进程
 						  RecPid =
 						      ejabberd_receiver:start(Socket,
 									      SockMod,
@@ -116,12 +118,15 @@ start(Module, SockMod, Socket, Opts) ->
 					    end,
 	  SocketData = #socket_state{sockmod = SockMod,
 				     socket = Socket, receiver = RecRef},
+        % 启动逻辑处理进程
 	  case Module:start({?MODULE, SocketData}, Opts) of
 	    {ok, Pid} ->
 		case SockMod:controlling_process(Socket, Receiver) of
 		  ok -> ok;
 		  {error, _Reason} -> SockMod:close(Socket)
 		end,
+
+        % 两个进程相互认识下
 		ReceiverMod:become_controller(Receiver, Pid);
 	    {error, _Reason} ->
 		SockMod:close(Socket),

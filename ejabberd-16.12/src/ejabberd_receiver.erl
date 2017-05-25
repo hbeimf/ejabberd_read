@@ -71,6 +71,7 @@ start_link(Socket, SockMod, Shaper, MaxStanzaSize) ->
 -spec start(inet:socket(), atom(), shaper:shaper()) -> undefined | pid().
 
 start(Socket, SockMod, Shaper) ->
+    %% 接收进程从这里启动
     start(Socket, SockMod, Shaper, infinity).
 
 -spec start(inet:socket(), atom(), shaper:shaper(),
