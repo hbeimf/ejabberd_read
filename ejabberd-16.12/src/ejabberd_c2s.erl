@@ -182,7 +182,23 @@
 % -define(GEN_FSM, p1_fsm).
 % (ejabberd@localhost)2> code:which(p1_fsm).
 % "/web/ejabberd_read/ejabberd-16.12/deps/p1_utils/ebin/p1_fsm.beam"
+% 快速参考　　http://www.cnblogs.com/shanso/p/4761370.html
+%  http://www.cnblogs.com/yourihua/archive/2012/05/13/2497776.html
 start(SockData, Opts) ->
+    %    io:format("~n~p~n ~p~n~n ", [{ejabberd_c2s,
+    %           [SockData, Opts],
+    %           fsm_limit_opts(Opts) ++ ?FSMOPTS}, {?MODULE, ?LINE}]),
+
+    %    {ejabberd_c2s,
+    %    [{ejabberd_socket,{socket_state,gen_tcp,#Port<0.27072>,<0.628.0>}},
+    %     [inet,
+    %      {access,c2s},
+    %      {shaper,c2s_shaper},
+    %      {max_stanza_size,65536},
+    %      {ip,{0,0,0,0}}]],
+    %    [{max_queue,1000}]}
+    % {ejabberd_c2s,188}
+
     ?GEN_FSM:start(ejabberd_c2s,
 		   [SockData, Opts],
 		   fsm_limit_opts(Opts) ++ ?FSMOPTS).
@@ -277,6 +293,7 @@ close(FsmRef) -> (?GEN_FSM):send_event(FsmRef, closed).
 %%% Callback functions from gen_fsm
 %%%----------------------------------------------------------------------
 
+% 这里来了，　一个客户端连接过来的初始状态
 init([{SockMod, Socket}, Opts]) ->
     Access = gen_mod:get_opt(access, Opts,
 			     fun acl:access_rules_validator/1, all),
