@@ -144,6 +144,14 @@ server_start(State, Mech, ClientIn) ->
       true ->
 	  case ets:lookup(sasl_mechanism, Mech) of
 	    [#sasl_mechanism{module = Module}] ->
+
+        % 登录连接跟踪到了这里
+        % io:format("~n===============~n~p~n~p~n~n", [{Module}, {?MODULE, ?LINE}]),
+        %         ===============
+        % cyrsasl_scram
+        % {cyrsasl,148}
+
+
 		{ok, MechState} =
 		    Module:mech_new(State#sasl_state.myname,
 				    State#sasl_state.get_password,
@@ -160,8 +168,20 @@ server_start(State, Mech, ClientIn) ->
 server_step(State, undefined) ->
     server_step(State, <<"">>);
 server_step(State, ClientIn) ->
+    %% 来到了这里　
+
     Module = State#sasl_state.mech_mod,
     MechState = State#sasl_state.mech_state,
+
+    % io:format("~n===============~n~p~n~p~n~n", [{Module, MechState, Module:mech_step(MechState, ClientIn)}, {?MODULE, ?LINE}]),
+
+    % ===============
+    % {cyrsasl_scram,{state,2,<<>>,<<>>,<<>>,#Fun<ejabberd_c2s.3.18126611>,
+    %                       undefined,<<>>,<<>>,<<>>},
+    %                {error,'not-authorized',<<"test">>}}
+    % {cyrsasl,176}
+
+
     case Module:mech_step(MechState, ClientIn) of
         {ok, Props} ->
             case check_credentials(State, Props) of

@@ -719,6 +719,17 @@ wait_for_feature_request(#sasl_auth{mechanism = Mech,
 			 #state{tls_enabled = TLSEnabled,
 				tls_required = TLSRequired} = StateData)
   when TLSEnabled or not TLSRequired ->
+    % 登录来到了这里，验证账号密码
+    %     io:format("~n===============~p~n~p~n~n", [{StateData#state.sasl_state, Mech, ClientIn}, {?MODULE, ?LINE}]),
+    %     ==============={{sasl_state,<<"jabber">>,<<"localhost">>,<<>>,
+    %                             #Fun<ejabberd_c2s.3.49029672>,
+    %                             #Fun<ejabberd_c2s.4.49029672>,
+    %                             #Fun<ejabberd_c2s.5.49029672>,undefined,undefined},
+    %                 <<"SCRAM-SHA-1">>,
+    %                 <<"n,,n=test,r=c65470f2-2675-49e0-9716-edbd29cfc57f">>}
+    % {ejabberd_c2s,723}
+
+
     case cyrsasl:server_start(StateData#state.sasl_state, Mech, ClientIn) of
 	{ok, Props} ->
 	    (StateData#state.sockmod):reset_stream(StateData#state.socket),
@@ -742,7 +753,7 @@ wait_for_feature_request(#sasl_auth{mechanism = Mech,
 	    fsm_next_state(wait_for_sasl_response,
 			   StateData#state{sasl_state = NewSASLState});
 	{error, Error, Username} ->
-	    ?INFO_MSG("(~w) Failed authentication for ~s@~s from ~s",
+	    ?INFO_MSG("(~w) XXX Failed authentication for ~s@~s from ~s",
 		      [StateData#state.socket,
 		       Username, StateData#state.server,
 		       ejabberd_config:may_hide_data(jlib:ip_to_list(StateData#state.ip))]),

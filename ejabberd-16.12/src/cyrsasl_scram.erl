@@ -62,6 +62,8 @@ mech_new(_Host, GetPassword, _CheckPassword,
     {ok, #state{step = 2, get_password = GetPassword}}.
 
 mech_step(#state{step = 2} = State, ClientIn) ->
+    % connect 账号连接来到了这里, 看到这里是很失望的，这么深的套路
+
     case re:split(ClientIn, <<",">>, [{return, binary}]) of
       [_CBind, _AuthorizationIdentity, _UserNameAttribute, _ClientNonceAttribute, ExtensionAttribute | _]
 	  when ExtensionAttribute /= [] ->
