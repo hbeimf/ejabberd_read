@@ -32,32 +32,24 @@ sudo /sbin/ejabberdctl ejabberd@127.0.0.1 register admin 127.0.0.1 123456
 在ubuntu 软件中心搜索 psi
 
 psi聊天客户端
-开源即时通讯客户端Psi
+开源即时通讯客户端
+
+Psi+
 
 pidgin
 
+swift xmpp
 
 
-
-http://coderplay.iteye.com/blog/99893
-ejabberd管理页面和客户端
-
-
-
-客户端下载
-
-http://psi-im.org/download/
-
-https://apps.ubuntu.com/cat/applications/precise/psi/
 
 
 新建XMPP管理帐号
 
 
 sudo /sbin/ejabberdctl register admin localhost 123456
-User admin@localhost successfully registered
+sudo /sbin/ejabberdctl register test localhost 123456
 
-http://www.jianshu.com/p/f801229de016
+User admin@localhost successfully registered
 
 -----------------------------------------
 管理页面url:
