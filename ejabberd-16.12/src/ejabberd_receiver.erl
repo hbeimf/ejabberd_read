@@ -188,6 +188,10 @@ handle_info({Tag, _TCPSocket, Data},
 	    #state{socket = Socket, sock_mod = SockMod} = State)
     when (Tag == tcp) or (Tag == ssl) or
 	   (Tag == ejabberd_xml) ->
+
+     % 接收客户端发过来的xml协议串
+     io:format("~nXML==============~n~p~n~p~n~n", [{SockMod, Data}, {?MODULE, ?LINE}]),
+
     case SockMod of
       fast_tls ->
 	  case fast_tls:recv_data(Socket, Data) of
@@ -210,6 +214,8 @@ handle_info({Tag, _TCPSocket, Data},
 	    {error, _Reason} -> {stop, normal, State}
 	  end;
       _ ->
+      % io:format("~nXMLXMLXML==============~n~p~n~p~n~n", [{SockMod, Data, process_data(Data, State)}, {?MODULE, ?LINE}]),
+
 	  {noreply, process_data(Data, State), ?HIBERNATE_TIMEOUT}
     end;
 handle_info({Tag, _TCPSocket}, State)
@@ -268,6 +274,7 @@ activate_socket(#state{socket = Socket,
 %% Erlang data structure.
 %% WARNING: Shaper does not work with Erlang data structure.
 process_data([], State) ->
+    io:format("~n==============~n~p~n~p~n~n", [{<<"YYY here">>}, {?MODULE, ?LINE}]),
     activate_socket(State), State;
 process_data([Element | Els],
 	     #state{c2s_pid = C2SPid} = State)
@@ -275,11 +282,12 @@ process_data([Element | Els],
 	 element(1, Element) == xmlstreamstart;
 	 element(1, Element) == xmlstreamelement;
 	 element(1, Element) == xmlstreamend ->
+
+   io:format("~n==============~n~p~n~p~n~n", [{<<"here">>}, {?MODULE, ?LINE}]),
+
     if C2SPid == undefined -> State;
        true ->
 	   catch
-            io:format("XML==============~n~p~n~p~n~n", [{C2SPid, element_wrapper(Element)}, {?MODULE, ?LINE}]),
-
             gen_fsm:send_event(C2SPid,   % 将数据发送给controller进程　, 进入　ejabberd_c2s
 				    element_wrapper(Element)),
 	   process_data(Els, State)
@@ -289,6 +297,10 @@ process_data(Data,
 	     #state{xml_stream_state = XMLStreamState,
 		    shaper_state = ShaperState, c2s_pid = C2SPid} =
 		 State) ->
+
+    % 客户端发起连接账号时来到这里
+    % io:format("~n==============~n~p~n~p~n~n", [{<<"XXX there">>}, {?MODULE, ?LINE}]),
+
     ?DEBUG("Received XML on stream = ~p", [(Data)]),
     XMLStreamState1 = case XMLStreamState of
                           undefined ->
@@ -296,7 +308,12 @@ process_data(Data,
                           _ ->
                               fxml_stream:parse(XMLStreamState, Data)
                       end,
+
+    % io:format("~n==============~n~p~n~p~n~n", [{XMLStreamState1, ShaperState, byte_size(Data)}, {?MODULE, ?LINE}]),
+
+    %%
     {NewShaperState, Pause} = shaper:update(ShaperState, byte_size(Data)),
+
     if
 	C2SPid == undefined ->
 	    ok;
