@@ -36,6 +36,8 @@
 
 -update_info({update, 0}).
 
+% (ejabberd@localhost)2> code:which(p1_fsm).
+% "/web/ejabberd_read/ejabberd-16.12/deps/p1_utils/ebin/p1_fsm.beam"
 -define(GEN_FSM, p1_fsm).
 
 -behaviour(?GEN_FSM).
@@ -176,6 +178,10 @@
 %%%----------------------------------------------------------------------
 %%% API
 %%%----------------------------------------------------------------------
+% 控制进程在这里启动
+% -define(GEN_FSM, p1_fsm).
+% (ejabberd@localhost)2> code:which(p1_fsm).
+% "/web/ejabberd_read/ejabberd-16.12/deps/p1_utils/ebin/p1_fsm.beam"
 start(SockData, Opts) ->
     ?GEN_FSM:start(ejabberd_c2s,
 		   [SockData, Opts],
