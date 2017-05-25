@@ -277,7 +277,7 @@ process_data([Element | Els],
 	 element(1, Element) == xmlstreamend ->
     if C2SPid == undefined -> State;
        true ->
-	   catch gen_fsm:send_event(C2SPid,   % 将数据发送给controller进程
+	   catch gen_fsm:send_event(C2SPid,   % 将数据发送给controller进程　, 进入　ejabberd_c2s
 				    element_wrapper(Element)),
 	   process_data(Els, State)
     end;
