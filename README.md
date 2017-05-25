@@ -61,3 +61,10 @@ http://localhost:5280/admin
 admin@localhost
 123456
 
+
+
+========================================
+ejabberd.yml 配制文件
+
+http://blog.csdn.net/l631768226/article/details/52931010
+
