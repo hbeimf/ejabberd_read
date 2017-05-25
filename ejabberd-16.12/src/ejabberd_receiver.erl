@@ -162,6 +162,8 @@ handle_call(reset_stream, _From, State) ->
     NewState = reset_parser(State),
     Reply = ok,
     {reply, Reply, NewState, ?HIBERNATE_TIMEOUT};
+
+% 将controller进程的Pid存下来
 handle_call({become_controller, C2SPid}, _From, State) ->
     XMLStreamState = fxml_stream:new(C2SPid, State#state.max_stanza_size),
     NewState = State#state{c2s_pid = C2SPid,
@@ -180,6 +182,8 @@ handle_cast(close, State) -> {stop, normal, State};
 handle_cast(_Msg, State) ->
     {noreply, State, ?HIBERNATE_TIMEOUT}.
 
+
+%%　此处读到从socket来的数据，这个case好酸爽，估计是使用的编辑器不同，导制缩进不同，不扯了，开撸吧，
 handle_info({Tag, _TCPSocket, Data},
 	    #state{socket = Socket, sock_mod = SockMod} = State)
     when (Tag == tcp) or (Tag == ssl) or
@@ -273,7 +277,7 @@ process_data([Element | Els],
 	 element(1, Element) == xmlstreamend ->
     if C2SPid == undefined -> State;
        true ->
-	   catch gen_fsm:send_event(C2SPid,
+	   catch gen_fsm:send_event(C2SPid,   % 将数据发送给controller进程
 				    element_wrapper(Element)),
 	   process_data(Els, State)
     end;
