@@ -66,5 +66,7 @@ admin@localhost
 ========================================
 ejabberd.yml 配制文件
 
+参考下面的blog, 开启ejabberd 用户注册功能，　我用的psi+注册的，　很方便
+
 http://blog.csdn.net/l631768226/article/details/52931010
 
