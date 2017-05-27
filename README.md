@@ -42,7 +42,6 @@ swift xmpp
 
 
 
-
 新建XMPP管理帐号
 
 
@@ -50,6 +49,9 @@ sudo /sbin/ejabberdctl register admin localhost 123456
 sudo /sbin/ejabberdctl register test localhost 123456
 
 User admin@localhost successfully registered
+
+用psi+注册客户端账号
+
 
 -----------------------------------------
 管理页面url:
@@ -69,4 +71,11 @@ ejabberd.yml 配制文件
 参考下面的blog, 开启ejabberd 用户注册功能，　我用的psi+注册的，　很方便
 
 http://blog.csdn.net/l631768226/article/details/52931010
+
+========================================
+
+jingle 语音聊天协议　
+
+
+
 
