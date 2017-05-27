@@ -76,6 +76,9 @@ http://blog.csdn.net/l631768226/article/details/52931010
 
 jingle 语音聊天协议　
 
+========================================
+release
 
-
-
+$ ./rebar generate
+$ cd rel/ejabberd/
+$ ./bin/ejabberdctl help
