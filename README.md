@@ -153,7 +153,19 @@ rebar 发布版本
         application:start(ejabberd).
 
 
+    2> 打开　　ejabberd.app.src
 
+        {mod, {ejabberd_app, []}}]}.
+
+
+    3> ejabberd_app:start().
+
+    这里就是真正的启动逻辑了
+
+
+    4> ejabberd_listener:start_listeners().
+
+        启动网关
 
 
 
