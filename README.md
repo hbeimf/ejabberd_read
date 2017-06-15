@@ -186,6 +186,9 @@ rebar 发布版本
         验证了下，其实这个文件就是复制的　/web/ejabberd_read/ejabberd-16.12/ejabberd.yml.example
 
 
+        在启动流程内通过下面的调用加载配置文件
+        ejabberd_config:start(),
+
 
 
 

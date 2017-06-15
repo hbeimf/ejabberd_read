@@ -56,9 +56,14 @@
 
 %% @type macro_value() = term().
 
+
+% 加载配置文件 ejabberd.yml
 start() ->
     mnesia_init(),
+
+    % 获取配置[ejabberd.yml]文件路径
     Config = get_ejabberd_config_path(),
+
     State0 = read_file(Config),
     State1 = hosts_to_start(State0),
     State2 = validate_opts(State1),

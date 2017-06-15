@@ -122,7 +122,10 @@ start(normal, _Args) ->
     ext_mod:start(),
 
     setup_if_elixir_conf_used(),
+
+    % 加载配置文件
     ejabberd_config:start(),
+
     set_settings_from_config(),
     acl:start(),
     shaper:start(),
