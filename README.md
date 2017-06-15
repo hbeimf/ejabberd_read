@@ -183,7 +183,7 @@ rebar 发布版本
 
         "/web/ejabberd_read/ejabberd-16.12/rel/ejabberd/etc/ejabberd/ejabberd.yml"
 
-
+        验证了下，其实这个文件就是复制的　/web/ejabberd_read/ejabberd-16.12/ejabberd.yml.example
 
 
 
