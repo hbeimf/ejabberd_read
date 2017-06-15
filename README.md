@@ -82,3 +82,20 @@ release
 $ ./rebar generate
 $ cd rel/ejabberd/
 $ ./bin/ejabberdctl help
+
+
+
+====================================================
+开发调试:
+
+cd /web/ejabberd_read/ejabberd-16.12
+bash ./run.sh
+
+作为守护进程脱离eshell 运行
+
+bash ./start.sh
+
+
+
+
+
