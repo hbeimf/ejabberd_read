@@ -140,6 +140,21 @@ rebar 发布版本
 
 
 
+===========================================================
+
+
+启动流程
+
+
+    1> ejabberd:start().
+
+    start() ->
+        %%ejabberd_cover:start(),
+        application:start(ejabberd).
+
+
+
+
 
 
 
