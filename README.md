@@ -86,14 +86,51 @@ $ ./bin/ejabberdctl help
 
 
 ====================================================
-开发调试:
+1> 开发调试:
 
 cd /web/ejabberd_read/ejabberd-16.12
 bash ./run.sh
 
-作为守护进程脱离eshell 运行
+2> 作为守护进程脱离eshell 运行
 
 bash ./start.sh
+
+3> rebar 编绎ejabberd
+
+/web/ejabberd_read/ejabberd-16.12$ ./rebar compile
+
+4> rebar 发布版本
+
+/web/ejabberd_read/ejabberd-16.12$ ./rebar generate
+
+发布的版本在　/web/ejabberd_read/ejabberd-16.12/rel/ejabberd　目录下面
+
+
+4.1 > 在发布版本目录下面执行　help
+/web/ejabberd_read/ejabberd-16.12/rel/ejabberd$ ./bin/ejabberdctl help
+Failed RPC connection to the node ejabberd@localhost: nodedown
+
+Commands to start an ejabberd node:
+  start      Start an ejabberd node in server mode
+  debug      Attach an interactive Erlang shell to a running ejabberd node
+  iexdebug   Attach an interactive Elixir shell to a running ejabberd node
+  live       Start an ejabberd node in live (interactive) mode
+  iexlive    Start an ejabberd node in live (interactive) mode, within an Elixir shell
+  foreground Start an ejabberd node in server mode (attached)
+
+Optional parameters when starting an ejabberd node:
+  --config-dir dir   Config ejabberd:    /web/ejabberd_read/ejabberd-16.12/rel/ejabberd/etc/ejabberd
+  --config file      Config ejabberd:    /web/ejabberd_read/ejabberd-16.12/rel/ejabberd/etc/ejabberd/ejabberd.yml
+  --ctl-config file  Config ejabberdctl: /web/ejabberd_read/ejabberd-16.12/rel/ejabberd/etc/ejabberd/ejabberdctl.cfg
+  --logs dir         Directory for logs: /web/ejabberd_read/ejabberd-16.12/rel/ejabberd/var/log/ejabberd
+  --spool dir        Database spool dir: /web/ejabberd_read/ejabberd-16.12/rel/ejabberd/var/lib/ejabberd
+  --node nodename    ejabberd node name: ejabberd@localhost
+
+
+
+
+
+
 
 
 
