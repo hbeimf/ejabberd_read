@@ -169,6 +169,20 @@ rebar 发布版本
 
 
 
+=====================================================================
+
+查看配置文件:
+
+        ejabberd_config:get_ejabberd_config_path().
+        启动一个发布版本　
+        /web/ejabberd_read/ejabberd-16.12/rel/ejabberd$ ./bin/ejabberdctl start
+        attach到已启动的ejabberd上
+        /web/ejabberd_read/ejabberd-16.12/rel/ejabberd$ ./bin/ejabberdctl debug
+
+        (ejabberd@localhost)1> ejabberd_config:get_ejabberd_config_path().
+
+        "/web/ejabberd_read/ejabberd-16.12/rel/ejabberd/etc/ejabberd/ejabberd.yml"
+
 
 
 
